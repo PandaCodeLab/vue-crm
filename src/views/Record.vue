@@ -4,10 +4,12 @@
       <h3>Новая запись</h3>
     </div>
 
-    <form class="form">
+    <Loader v-if="loading" />
+
+    <form v-else class="form">
       <div class="input-field">
-        <select>
-          <option>name cat</option>
+        <select ref="select">
+          <option v-for="c in categories" :key="c.id">{{ c.title }}</option>
         </select>
         <label>Выберите категорию</label>
       </div>
@@ -45,3 +47,26 @@
     </form>
   </div>
 </template>
+
+<script>
+export default {
+  name: "record",
+  data: () => ({
+    categories: [],
+    select: null,
+    loading: true,
+  }),
+  async mounted() {
+    this.categories = await this.$store.dispatch("fetchCategories");
+    this.loading = false;
+    this.select = M.FormSelect.init(this.$refs.select);
+    M.updateTextFields();
+    console.log(this.categories);
+  },
+  beforeDestroy() {
+    if (this.select && this.select.destroy) {
+      this.select.destroy();
+    }
+  },
+};
+</script>
