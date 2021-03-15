@@ -36,14 +36,14 @@
 
         <div class="input-field">
           <input
-            v-model.number="limit"
+            v-model="limit"
             id="limit"
             type="number"
-            :class="{ invalid: $v.limit.$dirty && !$v.limit.minValue }"
+            :class="[{ invalid: $v.limit.$dirty && !$v.limit.minValue }, { invalid: $v.limit.$dirty && !$v.limit.required }]"
           />
           <label for="limit">Лимит</label>
           <span
-            v-if="$v.limit.$dirty && !$v.limit.minValue"
+            v-if="($v.limit.$dirty && !$v.limit.minValue) || ($v.limit.$dirty && !$v.limit.required)"
             class="helper-text invalid"
             >Минимальное значение {{ $v.limit.$params.minValue.min }}</span
           >
@@ -76,12 +76,13 @@ export default {
   }),
   validations: {
     title: { required },
-    limit: { minValue: minValue(10) },
+    limit: { required, minValue: minValue(10) },
   },
   methods: {
     async submitHandler() {
-      if (this.$v.invalid) {
+      if (this.$v.$invalid) {
         this.$v.$touch();
+        console.log(this.$v.limit.minValue);
         return;
       }
 
