@@ -53,7 +53,7 @@ export default {
         typeName: record.type === "outcome" ? "Расход" : "Доход",
       };
     }
-    
+
     this.loading = false;
   },
 };

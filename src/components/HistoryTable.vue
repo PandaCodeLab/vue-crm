@@ -13,7 +13,7 @@
 
     <tbody>
       <tr v-for="(rec, i) in records" :key="rec.date">
-        <td>{{ i + 1 }}</td>
+        <td>{{ i + 1 + (page - 1) * pageSize }}</td>
         <td>{{ rec.amount | currency }}</td>
         <td>{{ rec.date | date("datetime") }}</td>
         <td>{{ rec.catTitle }}</td>
@@ -48,6 +48,12 @@ export default {
     records: {
       required: true,
       type: Array,
+    },
+    page: {
+      required: true,
+    },
+    pageSize: {
+      required: true,
     },
   },
 };
