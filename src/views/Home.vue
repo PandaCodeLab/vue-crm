@@ -24,6 +24,11 @@ import HomeCurrency from '@/components/HomeCurrency'
 
 export default {
   name: 'Home',
+  metaInfo() {
+    return {
+      title: this.$title('HomeTitle')
+    }
+  },
   data: () => ({
     loading: true,
     currency: null

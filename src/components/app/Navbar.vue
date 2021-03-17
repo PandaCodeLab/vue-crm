@@ -16,13 +16,13 @@
             data-target="dropdown"
             ref="dropdown"
           >
-            {{name}}
+            {{ name }}
             <i class="material-icons right">arrow_drop_down</i>
           </a>
 
           <ul id="dropdown" class="dropdown-content">
             <li>
-              <router-link to="profile" class="black-text">
+              <router-link to="/profile" class="black-text">
                 <i class="material-icons">account_circle</i>Профиль
               </router-link>
             </li>
@@ -41,35 +41,35 @@
 
 <script>
 export default {
-    data: () => ({
-        date: new Date,
-        interval: null,
-        dropdown: null
-    }),
-    methods: {
-        async logout() {
-            await this.$store.dispatch('logout')
-            this.$router.push('/login?message=logout')
-        }
-    },
-    computed: {
-      name() {
-        return this.$store.getters.info.name
-      }
-    },
-    mounted() {
-        this.interval = setInterval(() => {
-            this.date = new Date
-        }, 1000)
-        this.dropdown = M.Dropdown.init(this.$refs.dropdown, {
-            constrainWidth: true,
-        })
-    },
-    beforeDestroy() {
-        clearInterval(this.interval)
-        if (this.dropdown && this.dropdown.destroy) {
-            this.dropdown.destroy()
-        }
+  data: () => ({
+    date: new Date(),
+    interval: null,
+    dropdown: null
+  }),
+  methods: {
+    async logout() {
+      await this.$store.dispatch('logout')
+      this.$router.push('/login?message=logout')
     }
+  },
+  computed: {
+    name() {
+      return this.$store.getters.info.name
+    }
+  },
+  mounted() {
+    this.interval = setInterval(() => {
+      this.date = new Date()
+    }, 1000)
+    this.dropdown = M.Dropdown.init(this.$refs.dropdown, {
+      constrainWidth: true
+    })
+  },
+  beforeDestroy() {
+    clearInterval(this.interval)
+    if (this.dropdown && this.dropdown.destroy) {
+      this.dropdown.destroy()
+    }
+  }
 }
 </script>

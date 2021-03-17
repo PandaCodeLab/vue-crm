@@ -10,7 +10,7 @@
           :class="{
             invalid:
               ($v.email.$dirty && !$v.email.required) ||
-              ($v.email.$dirty && !$v.email.email),
+              ($v.email.$dirty && !$v.email.email)
           }"
         />
         <label for="email">Email</label>
@@ -33,7 +33,7 @@
           :class="{
             invalid:
               ($v.password.$dirty && !$v.password.required) ||
-              ($v.password.$dirty && !$v.password.minLength),
+              ($v.password.$dirty && !$v.password.minLength)
           }"
         />
         <label for="password">Пароль</label>
@@ -55,7 +55,7 @@
           type="text"
           v-model.trim="name"
           :class="{
-            invalid: $v.name.$dirty && !$v.name.required,
+            invalid: $v.name.$dirty && !$v.name.required
           }"
         />
         <label for="name">Имя</label>
@@ -89,40 +89,45 @@
 </template>
 
 <script>
-import { email, required, minLength } from "vuelidate/lib/validators";
+import { email, required, minLength } from 'vuelidate/lib/validators'
 
 export default {
-  name: "register",
+  name: 'register',
+  metaInfo() {
+    return {
+      title: this.$title('RegisterTitle')
+    }
+  },
   data: () => ({
-    email: "",
-    password: "",
-    name: "",
-    agree: false,
+    email: '',
+    password: '',
+    name: '',
+    agree: false
   }),
   validations: {
     email: { email, required },
     password: { required, minLength: minLength(6) },
     name: { required },
-    agree: { checked: (v) => v },
+    agree: { checked: v => v }
   },
   methods: {
     async submitHandler() {
       if (this.$v.$invalid) {
-        this.$v.$touch();
-        return;
+        this.$v.$touch()
+        return
       }
 
       const formData = {
         email: this.email,
         password: this.password,
-        name: this.name,
-      };
+        name: this.name
+      }
 
       try {
-        await this.$store.dispatch("register", formData);
-        this.$router.push("/");
+        await this.$store.dispatch('register', formData)
+        this.$router.push('/')
       } catch (e) {}
-    },
-  },
-};
+    }
+  }
+}
 </script>

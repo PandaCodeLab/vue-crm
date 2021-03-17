@@ -1,3 +1,11 @@
 {
-  "ProfileTitle": "Profile"
+  "ProfileTitle": "Profile",
+  "CategoriesTitle": "Categories",
+  "Detail-recordTitle": "Record-detail",
+  "HistoryTitle": "History",
+  "HomeTitle": "Home",
+  "LoginTitle": "Login",
+  "PlanningTitle": "Planning",
+  "RecordTitle": "New record",
+  "RegisterTitle": "Register"
 }

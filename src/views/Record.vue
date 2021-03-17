@@ -68,7 +68,7 @@
           type="text"
           v-model="description"
           :class="{
-            invalid: $v.description.$dirty && !$v.description.required,
+            invalid: $v.description.$dirty && !$v.description.required
           }"
         />
         <label for="description">Описание</label>
@@ -88,55 +88,61 @@
 </template>
 
 <script>
-import { required, minValue } from "vuelidate/lib/validators";
-import { mapGetters } from "vuex";
+import { required, minValue } from 'vuelidate/lib/validators'
+import { mapGetters } from 'vuex'
 
 export default {
-  name: "record",
+  name: 'record',
+  metaInfo() {
+    return {
+      title: this.$title('RecordTitle')
+    }
+  },
   data: () => ({
     categories: [],
     category: null,
     select: null,
     loading: true,
-    type: "outcome",
+    type: 'outcome',
     amount: 1,
-    description: "",
+    description: ''
   }),
   validations: {
     amount: { required, minValue: minValue(1) },
-    description: { required },
+    description: { required }
   },
   computed: {
-    ...mapGetters(["info"]),
+    ...mapGetters(['info']),
     canCreateRecord() {
-      if (this.type === "income") {
-        return true;
+      if (this.type === 'income') {
+        return true
       }
 
-      return this.info.bill >= this.amount;
-    },
+      return this.info.bill >= this.amount
+    }
   },
   methods: {
     async submitHandler() {
       if (this.$v.$invalid) {
-        this.$v.$touch();
-        return;
+        this.$v.$touch()
+        return
       }
 
       if (this.canCreateRecord) {
         try {
-          await this.$store.dispatch("createRecord", {
+          await this.$store.dispatch('createRecord', {
             catId: this.category,
             type: this.type,
             amount: this.amount,
             description: this.description,
-            date: new Date().toJSON(),
-          });
-          const bill = this.type === 'income' 
-          ? this.info.bill + this.amount
-          : this.info.bill - this.amount
+            date: new Date().toJSON()
+          })
+          const bill =
+            this.type === 'income'
+              ? this.info.bill + this.amount
+              : this.info.bill - this.amount
 
-          await this.$store.dispatch('updateInfo', {bill})
+          await this.$store.dispatch('updateInfo', { bill })
           this.$message('Запись успешно создана')
           this.$v.$reset()
           this.amount = 1
@@ -145,24 +151,24 @@ export default {
       } else {
         this.$message(
           `Недостаточно средств на счете (${this.amount - this.info.bill})`
-        );
+        )
       }
-    },
+    }
   },
   async mounted() {
-    this.categories = await this.$store.dispatch("fetchCategories");
-    this.category = this.categories[0].id;
-    this.loading = false;
+    this.categories = await this.$store.dispatch('fetchCategories')
+    this.category = this.categories[0].id
+    this.loading = false
 
     this.$nextTick(() => {
-      this.select = M.FormSelect.init(this.$refs.select);
-      M.updateTextFields();
-    });
+      this.select = M.FormSelect.init(this.$refs.select)
+      M.updateTextFields()
+    })
   },
   beforeDestroy() {
     if (this.select && this.select.destroy) {
-      this.select.destroy();
+      this.select.destroy()
     }
-  },
-};
+  }
+}
 </script>

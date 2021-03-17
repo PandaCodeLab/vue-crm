@@ -10,7 +10,7 @@
           :class="{
             invalid:
               ($v.email.$dirty && !$v.email.required) ||
-              ($v.email.$dirty && !$v.email.email),
+              ($v.email.$dirty && !$v.email.email)
           }"
         />
         <label for="email">Email</label>
@@ -33,7 +33,7 @@
           :class="{
             invalid:
               ($v.password.$dirty && !$v.password.required) ||
-              ($v.password.$dirty && !$v.password.minLength),
+              ($v.password.$dirty && !$v.password.minLength)
           }"
         />
         <label for="password">Пароль</label>
@@ -67,43 +67,46 @@
 </template>
 
 <script>
-import { email, required, minLength } from "vuelidate/lib/validators";
-import messages from "@/utils/messages";
+import { email, required, minLength } from 'vuelidate/lib/validators'
+import messages from '@/utils/messages'
 
 export default {
-  name: "login",
+  name: 'login',
+  metaInfo() {
+    return {
+      title: this.$title('LoginTitle')
+    }
+  },
   data: () => ({
-    email: "",
-    password: "",
+    email: '',
+    password: ''
   }),
   validations: {
     email: { email, required },
-    password: { required, minLength: minLength(6) },
+    password: { required, minLength: minLength(6) }
   },
   mounted() {
     if (messages[this.$route.query.message]) {
-      this.$message(messages[this.$route.query.message]);
+      this.$message(messages[this.$route.query.message])
     }
   },
   methods: {
     async submitHandler() {
       if (this.$v.$invalid) {
-        this.$v.$touch();
-        return;
+        this.$v.$touch()
+        return
       }
 
       const formData = {
         email: this.email,
-        password: this.password,
-      };
+        password: this.password
+      }
 
       try {
-        await this.$store.dispatch("login", formData);
+        await this.$store.dispatch('login', formData)
         this.$router.push('/')
-      } catch (e) {
-        
-      }
-    },
-  },
-};
+      } catch (e) {}
+    }
+  }
+}
 </script>

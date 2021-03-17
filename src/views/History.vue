@@ -37,6 +37,11 @@ import { Pie } from 'vue-chartjs'
 
 export default {
   name: 'history',
+  metaInfo() {
+    return {
+      title: this.$title('HistoryTitle')
+    }
+  },
   extends: Pie,
   mixins: [paginationMixin],
   data: () => ({

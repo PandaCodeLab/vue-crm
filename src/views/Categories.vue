@@ -21,33 +21,38 @@
 </template>
 
 <script>
-import CategoryCreate from "@/components/CategoryCreate";
-import CategoryEdit from "@/components/CategoryEdit";
+import CategoryCreate from '@/components/CategoryCreate'
+import CategoryEdit from '@/components/CategoryEdit'
 
 export default {
+  metaInfo() {
+    return {
+      title: this.$title('CategoriesTitle')
+    }
+  },
   data: () => ({
     categories: [],
     loading: true,
-    updateCount: 0,
+    updateCount: 0
   }),
   async mounted() {
-    this.categories = await this.$store.dispatch("fetchCategories");
-    this.loading = false;
+    this.categories = await this.$store.dispatch('fetchCategories')
+    this.loading = false
   },
   methods: {
     addNewCategory(category) {
-      this.categories.push(category);
+      this.categories.push(category)
     },
     updateCategories(category) {
-      const idx = this.categories.findIndex((el) => el.id === category.id);
-      this.categories[idx].title = category.title;
-      this.categories[idx].limit = category.limit;
-      this.updateCount++;
-    },
+      const idx = this.categories.findIndex(el => el.id === category.id)
+      this.categories[idx].title = category.title
+      this.categories[idx].limit = category.limit
+      this.updateCount++
+    }
   },
   components: {
     CategoryCreate,
-    CategoryEdit,
-  },
-};
+    CategoryEdit
+  }
+}
 </script>

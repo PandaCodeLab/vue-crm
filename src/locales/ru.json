@@ -1,3 +1,11 @@
 {
-  "ProfileTitle": "Профиль"
+  "ProfileTitle": "Профиль",
+  "CategoriesTitle": "Категории",
+  "Detail-recordTitle": "Запись",
+  "HistoryTitle": "История",
+  "HomeTitle": "Главная",
+  "LoginTitle": "Вход в систему",
+  "PlanningTitle": "Планирование",
+  "RecordTitle": "Новая запись",
+  "RegisterTitle": "Регистрация"
 }
