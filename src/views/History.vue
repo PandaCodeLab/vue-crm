@@ -31,76 +31,76 @@
 </template>
 
 <script>
-import HistoryTable from "@/components/HistoryTable";
-import paginationMixin from "@/mixins/pagination.mixin";
-import { Pie } from "vue-chartjs";
+import HistoryTable from '@/components/HistoryTable'
+import paginationMixin from '@/mixins/pagination.mixin'
+import { Pie } from 'vue-chartjs'
 
 export default {
-  name: "history",
+  name: 'history',
   extends: Pie,
   mixins: [paginationMixin],
   data: () => ({
     loading: true,
-    records: [],
+    records: []
   }),
   async mounted() {
-    const records = await this.$store.dispatch("fetchRecords");
-    const categories = await this.$store.dispatch("fetchCategories");
+    const records = await this.$store.dispatch('fetchRecords')
+    const categories = await this.$store.dispatch('fetchCategories')
 
-    this.setup(records, categories);
+    this.setup(records, categories)
 
-    this.loading = false;
+    this.loading = false
   },
   methods: {
     setup(records, categories) {
       this.setupPagination(
-        records.map((rec) => ({
+        records.map(rec => ({
           amount: rec.amount,
           date: rec.date,
           type: rec.type,
           description: rec.description,
           id: rec.id,
-          catTitle: categories.find((cat) => cat.id === rec.catId).title,
+          catTitle: categories.find(cat => cat.id === rec.catId).title
         }))
-      );
+      )
 
       this.renderChart({
-        labels: categories.map((cat) => cat.title),
+        labels: categories.map(cat => cat.title),
         datasets: [
           {
-            label: "Расходы по категориям",
-            data: categories.map((cat) => {
+            label: 'Расходы по категориям',
+            data: categories.map(cat => {
               return records
-              .filter((r) => r.catId === cat.id)
-              .filter((r) => r.type === "outcome")
-              .reduce((total, record) => {
-                return (total += +record.amount);
-              }, 0);
+                .filter(r => r.catId === cat.id)
+                .filter(r => r.type === 'outcome')
+                .reduce((total, record) => {
+                  return (total += +record.amount)
+                }, 0)
             }),
             backgroundColor: [
-              "rgba(255, 99, 132, 0.2)",
-              "rgba(54, 162, 235, 0.2)",
-              "rgba(255, 206, 86, 0.2)",
-              "rgba(75, 192, 192, 0.2)",
-              "rgba(153, 102, 255, 0.2)",
-              "rgba(255, 159, 64, 0.2)",
+              'rgba(255, 99, 132, 0.2)',
+              'rgba(54, 162, 235, 0.2)',
+              'rgba(255, 206, 86, 0.2)',
+              'rgba(75, 192, 192, 0.2)',
+              'rgba(153, 102, 255, 0.2)',
+              'rgba(255, 159, 64, 0.2)'
             ],
             borderColor: [
-              "rgba(255, 99, 132, 1)",
-              "rgba(54, 162, 235, 1)",
-              "rgba(255, 206, 86, 1)",
-              "rgba(75, 192, 192, 1)",
-              "rgba(153, 102, 255, 1)",
-              "rgba(255, 159, 64, 1)",
+              'rgba(255, 99, 132, 1)',
+              'rgba(54, 162, 235, 1)',
+              'rgba(255, 206, 86, 1)',
+              'rgba(75, 192, 192, 1)',
+              'rgba(153, 102, 255, 1)',
+              'rgba(255, 159, 64, 1)'
             ],
-            borderWidth: 1,
-          },
-        ],
-      });
-    },
+            borderWidth: 1
+          }
+        ]
+      })
+    }
   },
   components: {
-    HistoryTable,
-  },
-};
+    HistoryTable
+  }
+}
 </script>

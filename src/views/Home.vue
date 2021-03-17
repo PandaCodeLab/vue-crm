@@ -11,24 +11,19 @@
     <Loader v-if="loading" />
 
     <div v-else class="row">
-      <HomeBill
-        :rates="currency.rates"
-      />
-      <HomeCurrency
-        :rates="currency.rates"
-        :date="currency.date"
-      />
+      <HomeBill :rates="currency.rates" />
+      <HomeCurrency :rates="currency.rates" :date="currency.date" />
     </div>
   </div>
 </template>
 
 <script>
 // @ is an alias to /src
-import HomeBill from "@/components/HomeBill";
-import HomeCurrency from "@/components/HomeCurrency";
+import HomeBill from '@/components/HomeBill'
+import HomeCurrency from '@/components/HomeCurrency'
 
 export default {
-  name: "Home",
+  name: 'Home',
   data: () => ({
     loading: true,
     currency: null
@@ -48,5 +43,5 @@ export default {
     HomeBill,
     HomeCurrency
   }
-};
+}
 </script>
