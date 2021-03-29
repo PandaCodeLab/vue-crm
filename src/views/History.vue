@@ -10,12 +10,17 @@
 
     <Loader v-if="loading" />
 
-    <p class="center" v-else-if="!Object.keys(items).length">
+    <p class="center" v-else-if="!categories.length">
+      Категорий пока нет.
+      <router-link to="/categories">Добавить категорию.</router-link>
+    </p>
+
+    <p class="center" v-else-if="!records.length">
       Записей пока нет. <router-link to="/record">Добавить запись.</router-link>
     </p>
 
     <section v-else>
-      <HistoryTable :page="page" :pageSize="pageSize" :records="items" />
+      <HistoryTable :page="page" :pageSize="pageSize" :records="records" />
 
       <Paginate
         v-model="page"
@@ -49,10 +54,15 @@ export default {
     records: []
   }),
   async mounted() {
-    const records = await this.$store.dispatch('fetchRecords')
-    const categories = await this.$store.dispatch('fetchCategories')
+    this.records = await this.$store.dispatch('fetchRecords')
+    this.categories = await this.$store.dispatch('fetchCategories')
 
-    this.setup(records, categories)
+    console.log(this.records.length)
+    console.log(this.categories.length)
+
+    if (!!this.records.length && !!this.categories.length) {
+      this.setup(this.records, this.categories)
+    }
 
     this.loading = false
   },

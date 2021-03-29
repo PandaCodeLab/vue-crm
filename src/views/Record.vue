@@ -6,7 +6,7 @@
 
     <Loader v-if="loading" />
 
-    <p v-else-if="!categories.length" class="center">
+    <p v-else-if="!Object.keys(categories).length" class="center">
       Категорий пока нет.
       <router-link to="/categories">Добавить новую категорию</router-link>
     </p>
@@ -157,7 +157,11 @@ export default {
   },
   async mounted() {
     this.categories = await this.$store.dispatch('fetchCategories')
-    this.category = this.categories[0].id
+
+    if (Object.keys(this.categories).length) {
+      this.category = this.categories[0].id
+    }
+
     this.loading = false
 
     this.$nextTick(() => {
